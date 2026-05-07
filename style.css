@@ -1371,6 +1371,16 @@ summary {
     align-items: start;
   }
 
+  .footer-span-list {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footer-span-list li,
+  .footer-span-list a {
+    width: 100%;
+  }
+
   .hero-card,
   .promo-band,
   .info-card,
