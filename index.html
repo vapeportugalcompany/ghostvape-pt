@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Descobre os vapes descartáveis e líquidos com nicotina da Ghost® em Portugal. Sabores intensos, qualidade premium e uma experiência de vaping moderna para todos os vapers.">
   <title>Ghost® Portugal | Vapes Descartáveis e Líquidos</title>
+  <script>
+    (function () {
+      try {
+        if (window.localStorage.getItem('ghostvape_age_verified') === 'true') {
+          document.documentElement.classList.add('age-verified');
+        }
+      } catch (error) {
+        // Ignore storage errors and fall back to showing the gate.
+      }
+    }());
+  </script>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -70,18 +81,22 @@
       <section id="hero" class="hero-grid">
         <article class="hero-card hero-main">
           <div class="hero-copy">
-            <p class="eyebrow">GHOST - A nova experiencia de vapear</p>
-            <h1>Cigarro eletronico Portugal</h1>
-            <p class="hero-text">
-             A Ghost® nasceu de uma ideia simples e rapidamente se tornou uma das marcas de vape com maior 
-             crescimento a nível internacional.
-             Hoje, está presente em dezenas de países, incluindo Portugal, com forte presença em lojas físicas e vape shops.
-             Com uma gama completa de produtos desde vapes descartáveis a líquidos premium a Ghost®
-             destaca-se pela inovação, qualidade e consistência, oferecendo uma experiência de vaping moderna e
-             fiável para todos os vapers.
-            </p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="https://vapeportugal.pt/">Compre já!</a>
+            <div class="hero-copy-intro">
+              <p class="eyebrow">GHOST - A nova experiencia de vapear</p>
+              <h1>Cigarro eletronico Portugal</h1>
+            </div>
+            <div class="hero-copy-body">
+              <p class="hero-text">
+               A Ghost® nasceu de uma ideia simples e rapidamente se tornou uma das marcas de vape com maior 
+               crescimento a nível internacional.
+               Hoje, está presente em dezenas de países, incluindo Portugal, com forte presença em lojas físicas e vape shops.
+               Com uma gama completa de produtos desde vapes descartáveis a líquidos premium a Ghost®
+               destaca-se pela inovação, qualidade e consistência, oferecendo uma experiência de vaping moderna e
+               fiável para todos os vapers.
+              </p>
+              <div class="hero-actions">
+                <a class="button button-primary" href="https://vapeportugal.pt/">Compre já!</a>
+              </div>
             </div>
           </div>
           <div class="image-placeholder hero-image">
@@ -531,11 +546,33 @@
   <script>
     (function () {
       const gate = document.getElementById('age-gate');
-      if (sessionStorage.getItem('age-verified')) {
+      const storageKey = 'ghostvape_age_verified';
+      const storage = {
+        get(key) {
+          try {
+            return window.localStorage.getItem(key);
+          } catch (error) {
+            return null;
+          }
+        },
+        set(key, value) {
+          try {
+            window.localStorage.setItem(key, value);
+          } catch (error) {
+            // Ignore storage failures so the age gate still functions for the session.
+          }
+        }
+      };
+
+      if (storage.get(storageKey) === 'true') {
+        document.documentElement.classList.add('age-verified');
         gate.classList.add('hidden');
+        return;
       }
+
       document.getElementById('age-yes').addEventListener('click', () => {
-        sessionStorage.setItem('age-verified', '1');
+        storage.set(storageKey, 'true');
+        document.documentElement.classList.add('age-verified');
         gate.classList.add('hidden');
       });
       document.getElementById('age-no').addEventListener('click', () => {
