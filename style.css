@@ -425,6 +425,10 @@ h3 {
   padding-top: 8px;
 }
 
+.hero-actions .button {
+  width: 100%;
+}
+
 .hero-side {
   display: grid;
   grid-template-rows: 1fr auto;
